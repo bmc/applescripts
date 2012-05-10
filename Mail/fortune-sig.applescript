@@ -21,8 +21,14 @@ set signatureTemplate to (POSIX file "/Users/bmc/.sig-preamble.clapper")
 
 set sigPrefix to (read signatureTemplate as text)
 
-tell application "Mail"
-	tell signature (signatureName as rich text)
-		set its content to sigPrefix & fortune
+on appIsRunning(appName)
+	tell application "System Events" to (name of processes) contains appName
+end appIsRunning
+
+if appIsRunning("Mail") then
+	tell application "Mail"
+		tell signature (signatureName as rich text)
+			set its content to sigPrefix & fortune
+		end tell
 	end tell
-end tell
+end if
